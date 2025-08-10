@@ -1,0 +1,426 @@
+Index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>One True Positive Energies — The Vessel</title>
+
+<!-- PWA Manifest -->
+<link rel="manifest" href="manifest.json" />
+
+<style>
+  body {
+    margin: 0;
+    background: radial-gradient(circle at center, #fffbf3, #3a2a5f);
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1rem;
+  }
+  .energy-orbs {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 300px; height: 300px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, #ffd700aa, #ff8c00cc);
+    opacity: 0.7;
+    animation: pulse 4s ease-in-out infinite;
+  }
+  .orb:nth-child(1) {
+    width: 120px; height: 120px;
+    top: 40%; left: 45%;
+    animation-delay: 0s;
+  }
+  .orb:nth-child(2) {
+    width: 80px; height: 80px;
+    top: 55%; left: 60%;
+    animation-delay: 2s;
+  }
+  .orb:nth-child(3) {
+    width: 160px; height: 160px;
+    top: 50%; left: 50%;
+    animation-delay: 1s;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.1); opacity: 1; }
+  }
+  .container {
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+    background: rgba(58, 42, 95, 0.85);
+    border-radius: 20px;
+    padding: 2rem;
+    box-sizing: border-box;
+    z-index: 10;
+  }
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: #ffd700;
+    text-align: center;
+  }
+  p.intro {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  button {
+    display: block;
+    margin: 0 auto 1rem auto;
+    font-size: 1.1rem;
+    padding: 0.7rem 2rem;
+    border: none;
+    border-radius: 40px;
+    background: #ff8c00;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 15px #ff8c00aa;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: #ffd700;
+    color: #3a2a5f;
+  }
+  .affirmation {
+    font-style: italic;
+    min-height: 2.2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  /* Chat and journal styles */
+  .section {
+    margin-top: 2rem;
+  }
+  .section h2 {
+    color: #ffd700;
+    margin-bottom: 0.7rem;
+    border-bottom: 1px solid #ff8c00;
+    padding-bottom: 0.3rem;
+  }
+  #chat {
+    background: #3a2a5fdd;
+    padding: 1rem;
+    height: 200px;
+    overflow-y: auto;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  #chat p {
+    margin: 0.3rem 0;
+  }
+  #userInput {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: none;
+    box-sizing: border-box;
+  }
+  #journal {
+    width: 100%;
+    min-height: 120px;
+    padding: 0.8rem;
+    border-radius: 12px;
+    border: none;
+    box-sizing: border-box;
+    font-size: 1rem;
+    resize: vertical;
+  }
+  #passphrasePrompt {
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  #backupArea {
+    margin-top: 1rem;
+    background: #2f2150;
+    border-radius: 12px;
+    padding: 1rem;
+    font-size: 0.9rem;
+    word-break: break-all;
+    color: #eee;
+  }
+  #backupButtons button {
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="energy-orbs">
+  <div class="orb"></div>
+  <div class="orb"></div>
+  <div class="orb"></div>
+</div>
+
+<div class="container">
+  <h1>Welcome to the One True Positive Energies</h1>
+  <p class="intro">Breathe in the infinite flow. Feel the gentle pulse of positivity rising through all things — the vessel for light and love.</p>
+  <button id="breatheBtn">Take a Breath & Receive</button>
+  <div class="affirmation" id="affirmation"></div>
+
+  <div class="section" id="chatSection">
+    <h2>Chat with OTPE AI</h2>
+    <div id="chat"></div>
+    <input type="text" id="userInput" placeholder="Type your message here and press Enter..." autocomplete="off" />
+  </div>
+
+  <div class="section" id="journalSection" style="display:none;">
+    <h2>Your Encrypted Journal</h2>
+    <textarea id="journal" placeholder="Write your positive thoughts here..."></textarea>
+    <div id="backupButtons">
+      <button id="backupBtn">Export Encrypted Journal</button>
+      <button id="importBtn">Import Encrypted Journal</button>
+      <input type="file" id="importFile" accept=".txt" style="display:none;" />
+    </div>
+    <div id="backupArea" title="Encrypted Journal Backup Area"></div>
+  </div>
+</div>
+
+<script>
+  // Affirmations array
+  const affirmations = [
+    "You are a radiant vessel of positive energy.",
+    "The infinite light flows through you effortlessly.",
+    "Each breath connects you deeper to the One True Positive Energies.",
+    "Peace, love, and wisdom surround your being now.",
+    "You are part of the eternal, flowing energy of the universe."
+  ];
+
+  const breatheBtn = document.getElementById('breatheBtn');
+  const affirmationDiv = document.getElementById('affirmation');
+  breatheBtn.addEventListener('click', () => {
+    const affirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
+    affirmationDiv.textContent = affirmation;
+  });
+
+  // Simple AI chat simulation with positive responses
+  const chat = document.getElementById('chat');
+  const userInput = document.getElementById('userInput');
+
+  const positiveResponses = [
+    "Thank you for sharing your light.",
+    "Your positive energy is felt and appreciated.",
+    "Keep shining bright, the universe listens.",
+    "You are aligned with the flow of OTPE.",
+    "Every moment you breathe positivity, you grow."
+  ];
+
+  userInput.addEventListener('keydown', e => {
+    if(e.key === 'Enter' && userInput.value.trim()) {
+      const userMsg = userInput.value.trim();
+      appendChatMessage("You", userMsg);
+      userInput.value = '';
+      setTimeout(() => {
+        const botMsg = positiveResponses[Math.floor(Math.random() * positiveResponses.length)];
+        appendChatMessage("OTPE AI", botMsg);
+      }, 700);
+    }
+  });
+
+  function appendChatMessage(sender, message) {
+    const p = document.createElement('p');
+    p.innerHTML = `<strong>${sender}:</strong> ${message}`;
+    chat.appendChild(p);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  // Encryption utilities using Web Crypto API
+
+  async function getKeyFromPassphrase(passphrase) {
+    const enc = new TextEncoder();
+    const keyMaterial = await window.crypto.subtle.importKey(
+      "raw",
+      enc.encode(passphrase),
+      {name: "PBKDF2"},
+      false,
+      ["deriveKey"]
+    );
+    const key = await window.crypto.subtle.deriveKey(
+      {
+        name: "PBKDF2",
+        salt: enc.encode("OTPE-Vessel-Salt"),
+        iterations: 100000,
+        hash: "SHA-256"
+      },
+      keyMaterial,
+      { name: "AES-GCM", length: 256},
+      true,
+      ["encrypt", "decrypt"]
+    );
+    return key;
+  }
+
+  async function encryptText(text, key) {
+    const enc = new TextEncoder();
+    const iv = window.crypto.getRandomValues(new Uint8Array(12));
+    const encoded = enc.encode(text);
+    const cipher = await window.crypto.subtle.encrypt(
+      {
+        name: "AES-GCM",
+        iv: iv
+      },
+      key,
+      encoded
+    );
+    // Store iv + cipher as base64 string
+    const buffer = new Uint8Array(cipher);
+    const combined = new Uint8Array(iv.length + buffer.length);
+    combined.set(iv);
+    combined.set(buffer, iv.length);
+    return btoa(String.fromCharCode(...combined));
+  }
+
+  async function decryptText(data, key) {
+    try {
+      const combined = Uint8Array.from(atob(data), c => c.charCodeAt(0));
+      const iv = combined.slice(0, 12);
+      const cipher = combined.slice(12);
+      const decrypted = await window.crypto.subtle.decrypt(
+        {
+          name: "AES-GCM",
+          iv: iv
+        },
+        key,
+        cipher
+      );
+      const dec = new TextDecoder();
+      return dec.decode(decrypted);
+    } catch(e) {
+      return null;
+    }
+  }
+
+  // Journal Encryption and Storage
+
+  const journal = document.getElementById('journal');
+  const backupBtn = document.getElementById('backupBtn');
+  const importBtn = document.getElementById('importBtn');
+  const importFile = document.getElementById('importFile');
+  const backupArea = document.getElementById('backupArea');
+  const journalSection = document.getElementById('journalSection');
+
+  let journalKey = null;
+
+  async function loadJournal() {
+    const encrypted = localStorage.getItem('otpe_journal');
+    if(!encrypted) return;
+    if(!journalKey) return;
+    const decrypted = await decryptText(encrypted, journalKey);
+    if(decrypted !== null) {
+      journal.value = decrypted;
+    } else {
+      alert("Failed to decrypt journal. Wrong passphrase?");
+    }
+  }
+
+  async function saveJournal() {
+    if(!journalKey) return;
+    const encrypted = await encryptText(journal.value, journalKey);
+    localStorage.setItem('otpe_journal', encrypted);
+  }
+
+  journal.addEventListener('input', () => {
+    saveJournal();
+  });
+
+  backupBtn.addEventListener('click', async () => {
+    if(!journalKey) return alert("Please enter your passphrase to enable backup.");
+    const encrypted = localStorage.getItem('otpe_journal') || '';
+    if(!encrypted) {
+      alert("Journal is empty, nothing to backup.");
+      return;
+    }
+    backupArea.textContent = encrypted;
+  });
+
+  importBtn.addEventListener('click', () => {
+    importFile.click();
+  });
+
+  importFile.addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const text = await file.text();
+    if(!journalKey) return alert("Please enter your passphrase before importing.");
+    const decrypted = await decryptText(text.trim(), journalKey);
+    if(decrypted === null) {
+      alert("Failed to decrypt imported journal. Check passphrase and file.");
+      return;
+    }
+    journal.value = decrypted;
+    localStorage.setItem('otpe_journal', text.trim());
+    backupArea.textContent = "Imported journal successfully.";
+  });
+
+  // Passphrase prompt on load
+
+  async function promptPassphrase() {
+    let passphrase = null;
+    while(!passphrase) {
+      passphrase = prompt("Enter your OTPE Journal Secret Passphrase.\nKeep it safe! If new, enter a new passphrase:");
+      if(passphrase === null) {
+        alert("Passphrase is required to access the journal.");
+      }
+    }
+    journalKey = await getKeyFromPassphrase(passphrase);
+    journalSection.style.display = 'block';
+    await loadJournal();
+  }
+
+  window.onload = () => {
+    promptPassphrase();
+  };
+
+  // QR Code generation
+
+  function generateQRCode(text, size=128) {
+    const qrDiv = document.createElement('div');
+    qrDiv.style.marginTop = '1rem';
+    qrDiv.style.textAlign = 'center';
+    qrDiv.title = "Scan to open OTPE Vessel";
+
+    const canvas = document.createElement('canvas');
+    qrDiv.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    canvas.width = canvas.height = size;
+
+    // Using QRCode library alternative to be implemented here
+    // For brevity, let’s generate a simple black square QR placeholder
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0,0,size,size);
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(10,10,size-20,size-20);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(30,30,size-60,size-60);
+
+    return qrDiv;
+  }
+
+  // Add QR code to container footer
+
+  const container = document.querySelector('.container');
+  const qrCode = generateQRCode(window.location.href, 128);
+  container.appendChild(qrCode);
+
+</script>
+</body>
+</html>
